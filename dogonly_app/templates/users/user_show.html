@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}{{ user.username }} - DOGONLY{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/users.css' %}">
+<div class="user-detail">
+    <h1>{{ user.name }}'s Profile</h1>
+    <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ user.username }}'s profile picture" height="200" width="200">
+    <p>Name: {{ user.name }}</p>
+    <p>Joined: {{ user.date_joined|timezone:"Asia/Tokyo" }}</p>
+    <p>Introduction: {{ user.introduction }}</p>
+
+    <div class="post-list">
+        <h1>Posts</h1>
+        {% for post in posts %}
+            <br>
+            <img src="{{ post.image.url }}" alt="{{ post.user }}'s post" height="200" width="200">
+            <br>
+            <h2>{{ post.content }}</h2>
+            <h4>{{ post.created_at|timezone:"Asia/Tokyo" }}</h4>
+        {% endfor %}
+    </div>
+
+    <form action="{% url 'user_list' %}" method="post">
+        {% csrf_token %}
+        <p><input type="submit" value="←Back to Users"></p>
+    </form>
+</div>
+{% endblock %}

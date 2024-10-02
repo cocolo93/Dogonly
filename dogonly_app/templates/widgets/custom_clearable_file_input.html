@@ -1,0 +1,7 @@
+<div class="custom-file-input">
+    {% if widget.is_initial %}
+        <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}">
+        <label for="{{ widget.checkbox_id }}">{{ widget.checkbox_label }} Clear</label>
+    {% endif %}
+    <input type="file" name="{{ widget.name }}" id="{{ widget.attrs.id }}" accept="image/*">
+</div>

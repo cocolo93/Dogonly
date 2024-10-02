@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}Edit Profile - DOGONLY{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/form.css' %}">
+    <h1>Edit Profile for {{ user.username }}</h1>
+    <form action="{% url 'user_edit' user.id %}" method="post" enctype="multipart/form-data">
+        <div class="image-preview-container">
+            <img id="imagePreview" src="{% if form.instance.image %}{{ form.instance.image.url }}{% else %}{{ MEDIA_URL }}images/default.png{% endif %}" alt="Profile Image Preview" width="150" height="150">
+        </div>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="button-group">
+            <input type="submit" value="Update Profile"><br>
+            <br>
+            <input type="submit" value="Delete" formaction="{% url 'user_delete' user.id %}" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.');"></input><br>
+            <br>
+            <input type="submit" value="← Back" formaction="{% url 'mypage' %}"></input>
+        </div>
+    
+    </form>
+
+    <script>
+        document.getElementById('id_image').addEventListener('change', function(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+            const output = document.getElementById('imagePreview');
+            output.src = reader.result;
+            };
+            if (event.target.files.length > 0) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+
+    </script>
+{% endblock %}
+

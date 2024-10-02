@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}Posts - DOGONLY{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/posts.css' %}">
+
+<div class="post-list-container">
+    <h1>Posts</h1>
+    <ul>
+        {% for post in page_obj %}
+            <li>
+                <h3>
+                    <a class="user-link" href="{% url 'user_show' post.user.id %}">
+                        <img src="{% if post.user.image %}{{ post.user.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ user.username }}'s profile picture" height="50" width="50">
+                        {{ post.user }}
+                    </a>
+                </h3>
+                <br>
+                <img src="{{ post.image.url }}" alt="{{ post.user }}'s post" height="200" width="200">
+                <br>
+                <h2>{{ post.content }}</h2>
+                <h4>{{ post.created_at }}</h4>
+            </li>
+        {% empty %}
+            <li>ポストがありません。</li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+
+    <form action="{% url 'mypage' %}" method="post">
+        {% csrf_token %}
+        <p><input type="submit" value="back"></p>
+    </form>
+</div>
+{% endblock %}

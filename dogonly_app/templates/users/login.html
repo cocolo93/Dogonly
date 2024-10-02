@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}Sign In - DOGONLY{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'styles/form.css' %}">
+
+        <h1>Log In</h1>
+    <form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+        {{ form.as_p }}
+        <p><input type="hidden" name="next" value="{{next}}"></p>
+        <p><input type="submit" value="Log In"></p>
+    </form>
+{% endblock %}

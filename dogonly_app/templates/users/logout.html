@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}Log Out - DOGONLY{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    <p>Log out...</p>
+    <form action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+            <p><input type="submit" value="Home"></p>
+    </form>
+{% endblock %}

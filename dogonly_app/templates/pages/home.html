@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}HOME - DOGONLY{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <div class="buttons">
+            <p>Hello, {{ user.username }}! You are logged in.</p>
+            <a href="{% url 'mypage' %}"><button class="sign-in">Go to your profile</button></a>
+        </div>
+        <br>
+        <div class="all-post-list">
+            <h1>Posts</h1>
+            {% for post in posts %}
+                <br>
+                <a class="user-link" href="{% url 'user_show' user.id %}">
+                <h3>
+                    <img src="{% if post.user.image %}{{ post.user.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ post.user.name }}'s profile picture" height="50" width="50">
+                    {{ post.user.name }}
+                </h3>
+                </a>
+                <img src="{{ post.image.url }}" alt="{{ post.user }}'s post" height="200" width="200">
+                <br>
+                <h2>{{ post.content }}</h2>
+                <h4>created by: {{ post.created_at|timezone:"Asia/Tokyo" }}</h4>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="welcome">
+            <h1>Welcome to the DOGONLY!</h1>
+            <h2>This social networking site is for dogs only!</h2>
+        </div>
+
+        <div class="buttons">
+            <a href="/login/"><button class="sign-in">Log In</button></a>
+            <p>Not a member? <a href="/signup/">Sign up!</a></p>
+        </div>
+    {% endif %}
+
+{% endblock %}

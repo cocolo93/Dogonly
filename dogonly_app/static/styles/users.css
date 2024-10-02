@@ -1,0 +1,117 @@
+
+input[type="submit"] {
+    background-color: #5DA0A2;
+    color: #f9f9f9;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  input[type="submit"]:hover {
+    background-color: #3b6768;
+    transform: scale(1.05);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+input[type="submit"][value="Delete"] {
+    background-color: #a14545;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.menu form {
+    margin: 0;
+}
+
+.user-link {
+    color: #5DA0A2;
+}
+
+.user-link:hover {
+    color: #3b6768;
+    text-decoration: underline;
+}
+
+
+.user-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 800px;
+    }
+
+.user-list-container ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-list-container li {
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    margin: 20px;
+    text-align: center;
+}
+
+.user-detail {
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+
+}
+
+.pagination {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.pagination:hover {
+    color: #f9f9f9;
+    text-decoration: underline;
+}
+
+.back input[type="submit"]{
+  background-color: #ffffff;
+  color: #5DA0A2;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.back:input[type="submit"]:hover {
+    background-color: #f9f9f9;
+    transform: scale(1.05);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+@media (max-width: 768px) {
+    .user_item {
+        flex: 1 1 48%;
+    }
+}
+
+@media (max-width: 480px) {
+    .user_item {
+        flex: 1 1 100%;
+    }
+}

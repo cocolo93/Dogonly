@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}Post - DOGONLY{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/form.css' %}">
+
+    <h1>Post create</h1>
+
+    <form action="{% url 'post_create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if form.errors %}
+            <ul class="error-messages">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="image-preview-container">
+            <img id="imagePreview" src="#" alt="Image Preview" width="150" height="150" style="display: none;">
+        </div>
+        {{ form.as_p }}
+
+
+        <p><input type="submit" value="Post"></p>
+    </form>
+
+    <script>
+        document.getElementById('id_image').addEventListener('change', function(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                output.style.display = "block";
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+    </script>
+{% endblock %}

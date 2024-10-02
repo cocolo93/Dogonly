@@ -1,0 +1,21 @@
+{% load static %}
+{% load tz %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DOGONLY{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    <p><a href="/"><img src="{% static 'images/logo_long.png' %}" alt="contact" class="logo"></p></a>
+    {% block content %}{% endblock %}
+    <ul class="icon-list">
+        <li><a href="/about/"><img src="{% static 'images/about.png' %}" alt="about" class="icons"></a></li>
+        <li><a href="/help/"><img src="{% static 'images/help.png' %}" alt="help" class="icons"></a></li>
+        <li><a href="/contact/"><img src="{% static 'images/contact.png' %}" alt="contact" class="icons"></a></li>
+    </ul>
+</body>
+</html>

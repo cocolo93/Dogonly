@@ -1,0 +1,29 @@
+databases:
+  - name: dogonly_db
+    databaseName: dogonly_db
+    user: mysite
+    region: singapore
+    plan: free
+
+services:
+  - type: web
+    name: dogonly
+    env: python
+    region: singapore
+    plan: free
+    branch: main
+    healthCheckPath: /
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn dogonly_db.wsgi --log-file -"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dogonly_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+
+
+    autoDeploy: true

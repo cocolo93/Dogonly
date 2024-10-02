@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block title %}Sign Up - DOGONLY{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/form.css' %}">
+
+    <h1>Sign Up</h1>
+
+    <form action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
+        <div class="image-preview-container">
+            <img id="imagePreview" src="{% if form.instance.image %}{{ form.instance.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="Profile Image Preview" width="150" height="150">
+        </div>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+
+        {% if form.errors %}
+            <ul class="error-messages">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p><input type="submit" value="Sign Up"></p>
+    </form>
+
+    <script>
+        document.getElementById('id_image').addEventListener('change', function(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('imagePreview');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+    </script>
+{% endblock %}
