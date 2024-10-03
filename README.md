@@ -1,4 +1,4 @@
-[Dogonly](https://dogonly.onrender.com/)
+[DOGONLY](https://dogonly.onrender.com/)
 
 機械学習モデルを活用したプロダクトを作りたくて開発しました
 
