@@ -8,6 +8,16 @@
 <div class="user-detail">
     <h1>{{ user.name }}'s Profile</h1>
     <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ user.username }}'s profile picture" height="200" width="200">
+    
+    <form action="{% url 'follow_create' user.id %}" method="post">
+        {% csrf_token %}
+        {% if follow_exists %}
+            <p><input type="submit" value="Unfollow"></p>
+        {% else %}
+            <p><input type="submit" value="Follow"></p>
+        {% endif %}
+    </form>
+
     <p>Name: {{ user.name }}</p>
     <p>Joined: {{ user.date_joined|timezone:"Asia/Tokyo" }}</p>
     <p>Introduction: {{ user.introduction }}</p>

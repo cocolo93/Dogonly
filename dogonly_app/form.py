@@ -50,7 +50,6 @@ class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('content', 'image')
-        
 
 class LoginForm(AuthenticationForm):
     pass

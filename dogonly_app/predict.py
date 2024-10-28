@@ -1,17 +1,27 @@
+import os
 import numpy as np
-import tflite_runtime.interpreter as tflite
 from PIL import Image
 from django.conf import settings
-import os
 
 categories = ['dog', 'another']
 image_size = 50
 
-interpreter = tflite.Interpreter(model_path=settings.MODEL_PATH)
-interpreter.allocate_tensors()
+USE_TFLITE_RUNTIME = os.getenv('DJANGO_ENV') in ['production', 'docker']
 
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
+if USE_TFLITE_RUNTIME:
+    import tflite_runtime.interpreter as tflite
+    model_path = settings.TFLITE_MODEL_PATH
+    interpreter = tflite.Interpreter(model_path=model_path)
+    interpreter.allocate_tensors()
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+else:
+    # ローカル環境
+    import tensorflow as tf
+    model_path = settings.MODEL_PATH
+    model = tf.keras.models.load_model(model_path)
+
+
 
 def preprocess_image(image):
     image = Image.open(image).convert('RGB')
@@ -21,11 +31,15 @@ def preprocess_image(image):
 
 def predict(image):
     X = preprocess_image(image)
+
+    USE_TFLITE_RUNTIME = os.getenv('DJANGO_ENV') == 'production'
     
-    interpreter.set_tensor(input_details[0]['index'], X)
-    interpreter.invoke()
+    if USE_TFLITE_RUNTIME:
+        interpreter.set_tensor(input_details[0]['index'], X)
+        interpreter.invoke()
+        output_data = interpreter.get_tensor(output_details[0]['index'])
+    else:
+        output_data = model.predict(X)
     
-    output_data = interpreter.get_tensor(output_details[0]['index'])
     predicted = np.argmax(output_data)
-    
     return categories[predicted]

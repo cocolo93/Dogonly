@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .form import SignupForm, LoginForm, EditForm, PostCreateForm
 from django.contrib.auth import login, logout, get_user_model
-from .models import Post, User
+from .models import Post, User, Follow
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
@@ -229,3 +229,28 @@ def post_delete(request, post_id):
             post.delete()
             return redirect('mypage')
     return redirect('mypage')
+
+
+@login_required
+def follow_create(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    followed_by = request.user
+
+    if user == followed_by:
+        return redirect('user_show', user_id=user_id)
+
+    follow_exists = Follow.objects.filter(user=user, followed_by=followed_by).exists()
+
+    if request.method == 'POST':
+        if follow_exists:
+            Follow.objects.get(user=user, followed_by=followed_by).delete()
+        else:
+            Follow.objects.create(user=user, followed_by=followed_by)
+
+    # GETリクエストの場合
+    follow_exists = Follow.objects.filter(user=user, followed_by=followed_by).exists()
+    context = {
+        'user': user,
+        'follow_exists': follow_exists,
+    }
+    return render(request, 'users/user_show.html', context)

@@ -27,6 +27,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+env = environ.Env()
+environ.Env.read_env()
+ENV = os.environ.get('DJANGO_ENV', 'development')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -86,9 +89,18 @@ WSGI_APPLICATION = 'dogonly_db.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': env.db()
-}
+if ENV == 'production' or ENV == 'development':
+    DATABASES = {
+        'default': env.db()
+    }
+
+else:  # Docker
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'), 
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -146,7 +158,8 @@ SUPERUSER_NAME = env('SUPERUSER_NAME')
 SUPERUSER_EMAIL = env('SUPERUSER_EMAIL')
 SUPERUSER_PASSWORD = env('SUPERUSER_PASSWORD')
 
-MODEL_PATH = os.path.join(BASE_DIR, 'dogonly_app', 'machine_learning', 'dog_or_not.tflite')
+TFLITE_MODEL_PATH = os.path.join(BASE_DIR, 'dogonly_app', 'machine_learning', 'dog_or_not.tflite')
+MODEL_PATH = os.path.join(BASE_DIR, 'dogonly_app', 'machine_learning', 'dog_or_not_cnn.h5')
 
 DOWNLOAD_KEY = env('DOWNLOAD_KEY')
 DOWNLOAD_SECRET_KEY = env('DOWNLOAD_SECRET_KEY')

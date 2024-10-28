@@ -38,6 +38,7 @@ urlpatterns = [
     path('users/delete/<int:user_id>', views.user_delete, name='user_delete'),
     path('post/', views.post_create, name='post_create'),
     path('post/delete/<int:post_id>', views.post_delete, name='post_delete'),
-    path('post-list', views.post_list, name='post_list')
+    path('post-list', views.post_list, name='post_list'),
+    path('follow_create/<int:user_id>', views.follow_create, name='follow_create')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -81,7 +81,7 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following'
     )
-    followed_user = models.ForeignKey(
+    followed_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='followers'
@@ -91,7 +91,7 @@ class Follow(models.Model):
     )
 
     def __str__(self):
-        return f'{self.user.username} followed {self.followed_user.username}'
+        return f'{self.user.username} followed by {self.followed_by.username}'
 
 class Like(models.Model):
     user = models.ForeignKey(
